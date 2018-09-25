@@ -22,6 +22,10 @@ public class Hex {
     public readonly int R;  // Row
     public readonly int S;
 
+    // Data for map generation and in-game effects
+    public float elevation;
+    public float moisture;
+
     static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
 
     float radius = 1f;
