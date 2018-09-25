@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 534669903}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,6 +284,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 1162390357750992, guid: 9abfca23e1481fe46b76542f99d14435, type: 2}
+  hexMaterials:
+  - {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
+  - {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
+  - {fileID: 2100000, guid: 62a3ab5c6892581488e2d6a2e80996e4, type: 2}
+  - {fileID: 2100000, guid: 4b7f57cb32dd13543a4f5b1f162f25f5, type: 2}
 --- !u!4 &731273804
 Transform:
   m_ObjectHideFlags: 0

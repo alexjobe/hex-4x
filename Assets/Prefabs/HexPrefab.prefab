@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4424539579288488}
+  - component: {fileID: 114487300760088664}
   m_Layer: 0
   m_Name: HexPrefab
   m_TagString: Untagged
@@ -131,3 +132,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114487300760088664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1162390357750992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24b05e03214d7942b3c6fd9508c2ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexMap: {fileID: 0}
