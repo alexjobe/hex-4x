@@ -9,10 +9,12 @@ public class HexMap_Continent : HexMap {
         // First call the base version to make all the hexes
         base.GenerateMap();
 
-
         // Elevate area
-        int numContinents = 2;
+        int numContinents = 3;
         int continentSpacing = numColumns / numContinents;
+
+        // Generate the same map seed every time
+        //Random.InitState(0);
 
         for(int c = 0; c < numContinents; c++)
         {
@@ -28,9 +30,10 @@ public class HexMap_Continent : HexMap {
         }
 
         // Add Perlin noise
-        float noiseResolution = 0.1f;
+        float noiseResolution = 0.05f;
         Vector2 noiseOffset = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
         float noiseScale = 2f;
+
         for (int column = 0; column < numColumns; column++)
         {
             for (int row = 0; row < numRows; row++)
@@ -44,12 +47,30 @@ public class HexMap_Continent : HexMap {
             }
         }
 
+        // Simulate moisture
+        noiseResolution = 0.05f;
+        noiseOffset = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+        noiseScale = 2f;
+
+        for (int column = 0; column < numColumns; column++)
+        {
+            for (int row = 0; row < numRows; row++)
+            {
+                Hex h = GetHexAt(column, row);
+                float n = Mathf.PerlinNoise(
+                    ((float)column / Mathf.Max(numColumns, numRows) / noiseResolution) + noiseOffset.x,
+                    ((float)row / Mathf.Max(numColumns, numRows) / noiseResolution) + noiseOffset.y)
+                    - 0.5f;
+                h.moisture += n * noiseScale;
+            }
+        }
+
         // Update hex visuals to match the data
         UpdateHexVisuals();
         
     }
 
-    void ElevateArea(int q, int r, int range, float centerHeight = 0.5f)
+    void ElevateArea(int q, int r, int range, float centerHeight = 0.8f)
     {
         Hex centerHex = GetHexAt(q, r);
 
@@ -59,7 +80,7 @@ public class HexMap_Continent : HexMap {
         {
             if (h.elevation < 0)
                 h.elevation = 0;
-            h.elevation += centerHeight * Mathf.Lerp(1f, 0.25f, Hex.Distance(centerHex, h) / range);
+            h.elevation = centerHeight * Mathf.Lerp(1f, 0.25f, Mathf.Pow(Hex.Distance(centerHex, h) / range, 2f));
         }
     }
 }

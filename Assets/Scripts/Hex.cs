@@ -8,8 +8,9 @@ using UnityEngine;
 
 public class Hex {
 
-    public Hex(int q, int r)
+    public Hex(HexMap hexMap, int q, int r)
     {
+        this.hexMap = hexMap;
         this.Q = q;
         this.R = r;
         this.S = -(q + r);
@@ -26,11 +27,11 @@ public class Hex {
     public float elevation;
     public float moisture;
 
+    private HexMap hexMap;
+
     static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
 
     float radius = 1f;
-    bool allowWrapEastWest = true;
-    bool allowWrapNorthSouth = false;
 
     //Returns the world-space position of this hex
     public Vector3 Position()
@@ -69,7 +70,7 @@ public class Hex {
 
         Vector3 position = Position();
 
-        if (allowWrapEastWest)
+        if (hexMap.allowWrapEastWest)
         {
             float howManyWidthsFromCamera = (position.x - cameraPosition.x) / mapWidth;
 
@@ -83,7 +84,7 @@ public class Hex {
             position.x -= howManyWidthsToFix * mapWidth;
         }
 
-        if (allowWrapNorthSouth)
+        if (hexMap.allowWrapNorthSouth)
         {
             float howManyHeightsFromCamera = (position.z - cameraPosition.z) / mapHeight;
 
@@ -102,11 +103,24 @@ public class Hex {
 
     public static float Distance(Hex a, Hex b)
     {
-        // FIXME: Wrapping
+        int dQ = Mathf.Abs(a.Q - b.Q);
+        if (a.hexMap.allowWrapEastWest)
+        {
+            if (dQ > a.hexMap.numColumns / 2)
+                dQ = a.hexMap.numColumns - dQ;
+        }
+
+        int dR = Mathf.Abs(a.R - b.R);
+        if (a.hexMap.allowWrapNorthSouth)
+        {
+            if (dR > a.hexMap.numRows / 2)
+                dR = a.hexMap.numRows - dR;
+        }
+
         return 
             Mathf.Max(
-                Mathf.Abs(a.Q - b.Q),
-                Mathf.Abs(a.R - b.R),
+                dQ,
+                dR,
                 Mathf.Abs(a.S - b.S)
             );
     }
