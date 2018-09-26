@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
+  - component: {fileID: 534669906}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -256,6 +257,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &534669906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714a5c2658f4a284fbe6841cdbbb830c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &731273802
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,15 +292,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 731273802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04d6153ff7e6570408a38f4e031ac45e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6480a2642b20a714db7afba03c4cb9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 1162390357750992, guid: 9abfca23e1481fe46b76542f99d14435, type: 2}
-  hexMaterials:
-  - {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
-  - {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
-  - {fileID: 2100000, guid: 62a3ab5c6892581488e2d6a2e80996e4, type: 2}
-  - {fileID: 2100000, guid: 4b7f57cb32dd13543a4f5b1f162f25f5, type: 2}
+  meshWater: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  meshFlat: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  meshHill: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  meshMountain: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  matOcean: {fileID: 2100000, guid: 4b7f57cb32dd13543a4f5b1f162f25f5, type: 2}
+  matPlains: {fileID: 2100000, guid: 62a3ab5c6892581488e2d6a2e80996e4, type: 2}
+  matGrasslands: {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
+  matMountains: {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
 --- !u!4 &731273804
 Transform:
   m_ObjectHideFlags: 0

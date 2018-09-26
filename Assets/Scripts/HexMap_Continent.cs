@@ -9,12 +9,13 @@ public class HexMap_Continent : HexMap {
         // First call the base version to make all the hexes
         base.GenerateMap();
 
+
+        // Elevate area
         int numContinents = 2;
-        int continentSpacing = 20;
+        int continentSpacing = numColumns / numContinents;
 
         for(int c = 0; c < numContinents; c++)
         {
-            // Elevate area
             int numSplats = Random.Range(4, 8);
             for (int i = 0; i < numSplats; i++)
             {
@@ -23,6 +24,23 @@ public class HexMap_Continent : HexMap {
                 int x = Random.Range(0, 10) - y / 2 + (c*continentSpacing);
 
                 ElevateArea(x, y, range);
+            }
+        }
+
+        // Add Perlin noise
+        float noiseResolution = 0.1f;
+        Vector2 noiseOffset = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+        float noiseScale = 2f;
+        for (int column = 0; column < numColumns; column++)
+        {
+            for (int row = 0; row < numRows; row++)
+            {
+                Hex h = GetHexAt(column, row);
+                float n = Mathf.PerlinNoise(
+                    ((float)column / Mathf.Max(numColumns, numRows) / noiseResolution) + noiseOffset.x, 
+                    ((float)row / Mathf.Max(numColumns, numRows) / noiseResolution) + noiseOffset.y)
+                    - 0.5f;
+                h.elevation += n * noiseScale;
             }
         }
 
