@@ -34,9 +34,21 @@ public class HexMap : MonoBehaviour {
         }
 
         if (allowWrapEastWest)
+        {
             x = x % numColumns;
+            if (x < 0)
+            {
+                x += numColumns;
+            }
+        }
         if (allowWrapNorthSouth)
+        {
             y = y % numRows;
+            if (y < 0)
+            {
+                y += numRows;
+            }
+        }
 
         return hexes[x, y];
     }
@@ -57,7 +69,7 @@ public class HexMap : MonoBehaviour {
             {
                 // Instantiate a hex
                 Hex h = new Hex(column, row);
-                h.elevation = -1;
+                h.elevation = -0.5f;
 
                 hexes[column, row] = h;
 
@@ -123,7 +135,7 @@ public class HexMap : MonoBehaviour {
         {
             for (int dy = Mathf.Max(-range+1, -dx-range); dy < Mathf.Min(range, -dx+range-1); dy++)
             {
-                results.Add(hexes[centerHex.Q + dx, centerHex.R + dy]);
+                results.Add(GetHexAt(centerHex.Q + dx, centerHex.R + dy));
             }
         }
 
