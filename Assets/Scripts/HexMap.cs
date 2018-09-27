@@ -136,7 +136,7 @@ public class HexMap : MonoBehaviour {
                         Vector3 treePos = hexGO.transform.position;
                         if (h.elevation > heightHill)
                         {
-                            treePos.y += 0.2f;
+                            treePos.y += 0.25f;
                         }
                         GameObject.Instantiate(junglePrefab, treePos, Quaternion.identity, hexGO.transform);
                     }
@@ -147,7 +147,7 @@ public class HexMap : MonoBehaviour {
                         Vector3 treePos = hexGO.transform.position;
                         if(h.elevation > heightHill)
                         {
-                            treePos.y += 0.2f;
+                            treePos.y += 0.25f;
                         }
                         GameObject.Instantiate(forestPrefab, treePos, Quaternion.identity, hexGO.transform);
                     }
