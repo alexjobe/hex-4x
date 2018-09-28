@@ -21,20 +21,20 @@ public class HexMap : MonoBehaviour {
     public GameObject junglePrefab;
 
     // Height thresholds to determine tile type
-    public float heightMountain = 1f;
-    public float heightHill = 0.6f;
-    public float heightFlat = 0.0f;
+    [System.NonSerialized] public float heightMountain = 1f;
+    [System.NonSerialized] public float heightHill = 0.6f;
+    [System.NonSerialized] public float heightFlat = 0.0f;
 
-    public float moistureJungle = 0.66f;
-    public float moistureForest = 0.33f;
-    public float moistureGrasslands = 0.0f;
-    public float moisturePlains = -0.5f;
+    [System.NonSerialized] public float moistureJungle = 0.66f;
+    [System.NonSerialized] public float moistureForest = 0.33f;
+    [System.NonSerialized] public float moistureGrasslands = 0.0f;
+    [System.NonSerialized] public float moisturePlains = -0.5f;
 
-    public readonly int numRows = 30;
-    public readonly int numColumns = 60;
+    [System.NonSerialized] public int numRows = 30;
+    [System.NonSerialized] public int numColumns = 60;
 
-    public bool allowWrapEastWest = true;
-    public bool allowWrapNorthSouth = false;
+    [System.NonSerialized] public bool allowWrapEastWest = true;
+    [System.NonSerialized] public bool allowWrapNorthSouth = false;
 
     private Hex[,] hexes;
     private Dictionary<Hex, GameObject> hexToGameObjectMap;

@@ -190,6 +190,8 @@ GameObject:
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
+  - component: {fileID: 534669907}
+  - component: {fileID: 534669908}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -268,6 +270,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 714a5c2658f4a284fbe6841cdbbb830c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &534669907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12892d1dec6d424438c61624da2670f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &534669908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eb12674e006af04bad3dcbfd7dbfebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &731273802
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,15 +329,10 @@ MonoBehaviour:
   matGrasslands: {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
   matMountains: {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
   matDesert: {fileID: 2100000, guid: 78d215955a582d64eb9af51c07d7077f, type: 2}
-  heightMountain: 1
-  heightHill: 0.6
-  heightFlat: 0
-  moistureJungle: 1
-  moistureForest: 0.5
-  moistureGrasslands: 0
-  moisturePlains: -0.5
-  allowWrapEastWest: 1
-  allowWrapNorthSouth: 0
+  forestPrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
+    type: 2}
+  junglePrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
+    type: 2}
 --- !u!4 &731273804
 Transform:
   m_ObjectHideFlags: 0

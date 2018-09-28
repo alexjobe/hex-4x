@@ -53,26 +53,40 @@ public class CameraMouseController : MonoBehaviour {
 
         // Zoom to scroll wheel
         float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
-        if(Mathf.Abs(scrollAmount) > 0.01f)
+        float minHeight = 4f;
+        float maxHeight = 20f;
+
+        if (Mathf.Abs(scrollAmount) > 0.01f)
         {
             // Move camera towards hitPos
             Vector3 dir = hitPos - Camera.main.transform.position;
 
             Vector3 p = Camera.main.transform.position;
-            Debug.Log("Amount: " + scrollAmount);
 
-            if(Mathf.Abs(scrollAmount) > 0 && p.y > 2 && p.y < 20)
+            if(Mathf.Abs(scrollAmount) > 0 && p.y > minHeight && p.y < maxHeight)
             {
                 Camera.main.transform.Translate(dir * scrollAmount, Space.World);
             }
-            else if(scrollAmount > 0 && p.y >= 20)
+            else if(scrollAmount > 0 && p.y >= maxHeight)
             {
                 Camera.main.transform.Translate(dir * scrollAmount, Space.World);
             }
-            else if (scrollAmount < 0 && p.y <= 2)
+            else if (scrollAmount < 0 && p.y <= minHeight)
             {
                 Camera.main.transform.Translate(dir * scrollAmount, Space.World);
             }
+
+            //Camera.main.transform.rotation = Quaternion.Euler(
+            //    Mathf.Lerp(30, 90, p.y / (maxHeight/1.5f)),
+            //    Camera.main.transform.rotation.eulerAngles.y,
+            //    Camera.main.transform.rotation.eulerAngles.z
+            //);
         }
-	}
+
+        Camera.main.transform.rotation = Quaternion.Euler(
+                Mathf.Lerp(30, 90, Camera.main.transform.position.y / (maxHeight / 1.5f)),
+                Camera.main.transform.rotation.eulerAngles.y,
+                Camera.main.transform.rotation.eulerAngles.z
+            );
+    }
 }
