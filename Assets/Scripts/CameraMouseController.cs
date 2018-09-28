@@ -50,5 +50,29 @@ public class CameraMouseController : MonoBehaviour {
             rayLength = (mouseRay.origin.y / mouseRay.direction.y);
             lastMousePosition = mouseRay.origin - (mouseRay.direction * rayLength);
         }
+
+        // Zoom to scroll wheel
+        float scrollAmount = Input.GetAxis("Mouse ScrollWheel");
+        if(Mathf.Abs(scrollAmount) > 0.01f)
+        {
+            // Move camera towards hitPos
+            Vector3 dir = hitPos - Camera.main.transform.position;
+
+            Vector3 p = Camera.main.transform.position;
+            Debug.Log("Amount: " + scrollAmount);
+
+            if(Mathf.Abs(scrollAmount) > 0 && p.y > 2 && p.y < 20)
+            {
+                Camera.main.transform.Translate(dir * scrollAmount, Space.World);
+            }
+            else if(scrollAmount > 0 && p.y >= 20)
+            {
+                Camera.main.transform.Translate(dir * scrollAmount, Space.World);
+            }
+            else if (scrollAmount < 0 && p.y <= 2)
+            {
+                Camera.main.transform.Translate(dir * scrollAmount, Space.World);
+            }
+        }
 	}
 }
