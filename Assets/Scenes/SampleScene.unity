@@ -319,19 +319,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6480a2642b20a714db7afba03c4cb9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexPrefab: {fileID: 1162390357750992, guid: 9abfca23e1481fe46b76542f99d14435, type: 2}
-  meshWater: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
-  meshFlat: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
-  meshHill: {fileID: 4300000, guid: 232239bfbda2acb4c8dcf4e1b9b32848, type: 3}
-  meshMountain: {fileID: 4300000, guid: 8dc1446d64ac11549a1c0dc067c32570, type: 3}
-  matOcean: {fileID: 2100000, guid: 4b7f57cb32dd13543a4f5b1f162f25f5, type: 2}
-  matPlains: {fileID: 2100000, guid: 62a3ab5c6892581488e2d6a2e80996e4, type: 2}
-  matGrasslands: {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
-  matMountains: {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
-  matDesert: {fileID: 2100000, guid: 78d215955a582d64eb9af51c07d7077f, type: 2}
-  forestPrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
+  HexPrefab: {fileID: 1162390357750992, guid: 9abfca23e1481fe46b76542f99d14435, type: 2}
+  MeshWater: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  MeshFlat: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+  MeshHill: {fileID: 4300000, guid: 232239bfbda2acb4c8dcf4e1b9b32848, type: 3}
+  MeshMountain: {fileID: 4300000, guid: 8dc1446d64ac11549a1c0dc067c32570, type: 3}
+  MatOcean: {fileID: 2100000, guid: 4b7f57cb32dd13543a4f5b1f162f25f5, type: 2}
+  MatPlains: {fileID: 2100000, guid: 62a3ab5c6892581488e2d6a2e80996e4, type: 2}
+  MatGrasslands: {fileID: 2100000, guid: be26f22f075a43a43a6f35ce50f073b0, type: 2}
+  MatMountains: {fileID: 2100000, guid: 441b38ddac3562f4a8d3f07dfe03bb01, type: 2}
+  MatDesert: {fileID: 2100000, guid: 78d215955a582d64eb9af51c07d7077f, type: 2}
+  ForestPrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
     type: 2}
-  junglePrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
+  JunglePrefab: {fileID: 1659405748661768, guid: 1748acb26da906949bf047ebb105e947,
+    type: 2}
+  UnitDwarfPrefab: {fileID: 1490127608170122, guid: 01ed4987c475b1b498d97d021235585b,
     type: 2}
 --- !u!4 &731273804
 Transform:
