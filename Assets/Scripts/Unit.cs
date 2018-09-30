@@ -15,6 +15,8 @@ public class Unit {
     public delegate void UnitMovedDelegate(Hex oldHex, Hex newHex);
     public event UnitMovedDelegate OnUnitMoved;
 
+    Queue<Hex> hexPath;
+
     public void SetHex( Hex newHex )
     {
         Hex oldHex = Hex;
@@ -32,13 +34,20 @@ public class Unit {
         }
     }
 
+    public void SetHexPath( Hex[] hexPath)
+    {
+        this.hexPath = new Queue<Hex>(hexPath);
+    }
+
     public void DoTurn()
     {
         // Do queued move
-        
-        // TESTING: Move one tile to the right
+        if(hexPath == null || hexPath.Count == 0)
+        {
+            return;
+        }
         Hex oldHex = Hex;
-        Hex newHex = oldHex.HexMap.GetHexAt(oldHex.Q + 1, oldHex.R);
+        Hex newHex = hexPath.Dequeue();
 
         SetHex(newHex);
     }
