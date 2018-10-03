@@ -88,7 +88,10 @@ public class MouseController : MonoBehaviour {
 
     void Update_UnitMovement()
     {
-
+        if (Input.GetMouseButtonUp(1))
+        {
+            // Complete unit movement
+        }
     }
 
     void Update_CameraDrag ()

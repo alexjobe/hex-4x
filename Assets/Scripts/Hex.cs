@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using QPath;
 
 // The Hex class defines the grid position, world-space
 // position, neighbors, etc... of a hex tile. However, it
 // does NOT interact directly with Unity in any way
 
-public class Hex {
+public class Hex: IQPathTile {
 
     public Hex(HexMap hexMap, int q, int r)
     {
@@ -28,6 +29,9 @@ public class Hex {
     public float Elevation;
     public float Moisture;
 
+    // TODO: Temporary public
+    public int MovementCost = 1;
+
     public readonly HexMap HexMap;
 
     static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
@@ -35,6 +39,11 @@ public class Hex {
     float radius = 1f;
 
     HashSet<Unit> units;
+
+    public override string ToString()
+    {
+        return Q + ", " + R;
+    }
 
     //Returns the world-space position of this hex
     public Vector3 Position()
@@ -109,6 +118,11 @@ public class Hex {
         return position;
     }
 
+    public static float CostEstimate(IQPathTile a, IQPathTile b)
+    {
+        return Distance((Hex)a, (Hex)b);
+    }
+
     public static float Distance(Hex a, Hex b)
     {
         int dQ = Mathf.Abs(a.Q - b.Q);
@@ -155,4 +169,46 @@ public class Hex {
     {
         return units.ToArray();
     }
+
+    public int BaseMovementCost()
+    {
+        // TODO: Factor in terrain type and features
+        return MovementCost;
+    }
+
+    Hex[] neighbours;
+
+    #region IQPathTile implementation
+    public IQPathTile[] GetNeighbours() {
+
+        if (this.neighbours != null)
+            return this.neighbours;
+
+        List<Hex> neighboursIncludingNulls = new List<Hex>();
+
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q + 1, R + 0));
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q - 1, R + 0));
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q + 0, R + 1));
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q + 0, R - 1));
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q + 1, R - 1));
+        neighboursIncludingNulls.Add(HexMap.GetHexAt(Q - 1, R + 1));
+
+        List<Hex> neighbours = new List<Hex>();
+
+        foreach(Hex h in neighboursIncludingNulls)
+        {
+            if(h != null)
+                neighbours.Add(h);
+        }
+
+        // Store array so we don't have to calculate it every time
+        this.neighbours = neighbours.ToArray();
+
+        return this.neighbours;
+    }
+
+    public float AggregateCostToEnter(float costSoFar, IQPathTile sourceTile, IQPathUnit unit) {
+        return ((Unit)(unit)).AggregateTurnsToEnterHex(this, costSoFar);
+    }
+    #endregion
 }

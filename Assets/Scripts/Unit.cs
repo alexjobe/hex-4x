@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using QPath;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit {
+public class Unit: IQPathUnit {
 
     public string Name = "Dwarf";
     public int HitPoints = 100;
@@ -16,6 +17,9 @@ public class Unit {
     public event UnitMovedDelegate OnUnitMoved;
 
     Queue<Hex> hexPath;
+
+    // TODO: Move to config file
+    const bool MOVEMENT_RULES_LIKE_CIV6 = false;
 
     public void SetHex( Hex newHex )
     {
@@ -34,9 +38,27 @@ public class Unit {
         }
     }
 
+    public void DUMMY_PATHFINDING_FUNC()
+    {
+        IQPathTile[] p = QPath.QPath.FindPath(
+            Hex.HexMap,
+            this,
+            Hex,
+            Hex.HexMap.GetHexAt(Hex.Q + 8, Hex.R),
+            Hex.CostEstimate
+        );
+
+        Hex[] hs = System.Array.ConvertAll(p, a => (Hex)a);
+
+        Debug.Log("Got path of length: " + hs.Length);
+
+        SetHexPath(hs);
+    }
+
     public void SetHexPath( Hex[] hexPath)
     {
         this.hexPath = new Queue<Hex>(hexPath);
+        this.hexPath.Dequeue(); // First hex is the one we're on
     }
 
     public void DoTurn()
@@ -46,9 +68,108 @@ public class Unit {
         {
             return;
         }
-        Hex oldHex = Hex;
+
+        // Get first hex from queue
         Hex newHex = hexPath.Dequeue();
 
+        // Move to new hex
         SetHex(newHex);
     }
+
+    public int MovementCostToEnterHex( Hex hex )
+    {
+        // TODO: Override base movement cost of hex
+        return hex.BaseMovementCost();
+    }
+
+    public float AggregateTurnsToEnterHex(Hex hex, float turnsToDate)
+    {
+        // If you are trying to enter a tile with a movement cost greater than
+        // your current remaining movement points, this will either result in a 
+        // cheaper-than-expected turn cost (Civ5) or a more-expensive-than-expected
+        // turn cost (Civ6)
+
+        float baseTurnsToEnterHex = MovementCostToEnterHex(hex) / Movement; // Ex: Entering a forest is 1 turn
+
+        if(baseTurnsToEnterHex < 0)
+        {
+            // Impassable terrain
+            return -999;
+        }
+
+        if (baseTurnsToEnterHex > 1)
+        {
+            // Even if a hex costs 3 to enter and we have a max move of 2, you can always enter
+            // it using a full turn of movement
+            baseTurnsToEnterHex = 1;
+        }
+
+        float turnsRemaining = MovementRemaining / Movement; // Ex: If we are at 1/2 moves, then we have .5 turns left
+
+        float turnsToDateWhole = Mathf.Floor(turnsToDate); // Ex: 4.33 becomes 4
+        float turnsToDateFraction = turnsToDate - turnsToDateWhole; // Ex: 4.33 becomes 0.33
+
+        if( (turnsToDateFraction > 0 && turnsToDateFraction < 0.01f) || turnsToDateFraction > 0.99f)
+        {
+            Debug.LogError("Floating point drift");
+
+            if (turnsToDateFraction < 0.01f)
+            {
+                turnsToDateFraction = 0;
+            }
+            if (turnsToDateFraction > 0.99f)
+            {
+                turnsToDateWhole += 1;
+                turnsToDateFraction = 0;
+            }
+        }
+
+        float turnsUsedAfterThisMove = turnsToDate + baseTurnsToEnterHex;
+
+        if(turnsUsedAfterThisMove > 1)
+        {
+            // We don't have enough movement to complete this move
+            if (MOVEMENT_RULES_LIKE_CIV6)
+            {
+                if(turnsToDateFraction == 0)
+                {
+                    // We have full movement, but not enough to enter tile
+                    // Ex: We have a max move of 2, but tile costs 3 to enter
+                }
+                else
+                {
+                    // We aren't allowed to enter the tile this move
+                    // Sit idle for remainder of turn
+                    turnsToDateWhole += 1;
+                    turnsToDateFraction = 0;
+                }
+
+                // Now we know we are starting on a fresh turn
+                turnsUsedAfterThisMove = baseTurnsToEnterHex;
+                if (turnsUsedAfterThisMove > 1)
+                    turnsUsedAfterThisMove = 1;
+            }
+            else
+            {
+                // Civ5 style movement rules allow us to enter a tile even if
+                // we don't have enough movement left
+                turnsUsedAfterThisMove = 1;
+            }
+        }
+
+        // turnsUsedAfterThisMove is now some value from 0...1 (this includes the fractional
+        // part of moves from previous turns)
+
+        // Return total turn cost of turnsToDate + turns for this move
+        return turnsToDateWhole + turnsUsedAfterThisMove;
+
+    }
+
+    #region IQPathUnit implementation
+    //The turn cost to enter a hex (i.e. 0.5 turns if a movement cost is 1 and we have 2 max movement)
+    public float CostToEnterHex(IQPathTile sourceTile, IQPathTile destinationTile)
+    {
+        return 1;
+    }
+    #endregion
 }
