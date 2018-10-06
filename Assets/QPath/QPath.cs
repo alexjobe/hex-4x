@@ -19,13 +19,13 @@ namespace QPath
 
     public class QPath
     {
-        public static IQPathTile[] FindPath(
+        public static T[] FindPath<T>(
             IQPathWorld world, 
             IQPathUnit unit, 
-            IQPathTile startTile, 
-            IQPathTile endTile,
+            T startTile, 
+            T endTile,
             CostEstimateDelegate costEstimateFunc
-        )
+        ) where T : IQPathTile
         {
             if (world == null || unit == null || startTile == null || endTile == null)
             {
@@ -34,7 +34,7 @@ namespace QPath
             }
 
             // Call on path solver (could have different types)
-            QPath_AStar resolver = new QPath_AStar(world, unit, startTile, endTile, costEstimateFunc);
+            QPath_AStar<T> resolver = new QPath_AStar<T>(world, unit, startTile, endTile, costEstimateFunc);
 
             resolver.DoWork();
 

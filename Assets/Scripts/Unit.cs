@@ -40,7 +40,7 @@ public class Unit: IQPathUnit {
 
     public void DUMMY_PATHFINDING_FUNC()
     {
-        IQPathTile[] p = QPath.QPath.FindPath(
+        Hex[] p = QPath.QPath.FindPath<Hex>(
             Hex.HexMap,
             this,
             Hex,
@@ -48,17 +48,23 @@ public class Unit: IQPathUnit {
             Hex.CostEstimate
         );
 
-        Hex[] hs = System.Array.ConvertAll(p, a => (Hex)a);
+        Debug.Log("Got path of length: " + p.Length);
 
-        Debug.Log("Got path of length: " + hs.Length);
-
-        SetHexPath(hs);
+        SetHexPath(p);
     }
 
-    public void SetHexPath( Hex[] hexPath)
+    public void ClearHexPath()
     {
-        this.hexPath = new Queue<Hex>(hexPath);
-        this.hexPath.Dequeue(); // First hex is the one we're on
+        hexPath = new Queue<Hex>();
+    }
+
+    public void SetHexPath( Hex[] hexArray )
+    {
+        hexPath = new Queue<Hex>(hexArray);
+        if (hexPath.Count > 0)
+        {
+            hexPath.Dequeue(); // First hex is the one we're on
+        }
     }
 
     public void DoTurn()

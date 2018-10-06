@@ -20,7 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4424539579288488}
   - component: {fileID: 114487300760088664}
-  m_Layer: 0
+  - component: {fileID: 54175607198274614}
+  m_Layer: 9
   m_Name: HexPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +38,7 @@ GameObject:
   - component: {fileID: 4249298490141166}
   - component: {fileID: 23607153724123128}
   - component: {fileID: 102619035155823172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HexCoordLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +56,8 @@ GameObject:
   - component: {fileID: 33858133175270460}
   - component: {fileID: 23569655723032640}
   - component: {fileID: 95996103813733476}
-  m_Layer: 0
+  - component: {fileID: 64502042011940060}
+  m_Layer: 9
   m_Name: HexModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,6 +182,35 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1545083975151076}
   m_Mesh: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
+--- !u!54 &54175607198274614
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1162390357750992}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &64502042011940060
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545083975151076}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: c2f7a3987d1c71846bc1606a3135a075, type: 3}
 --- !u!95 &95996103813733476
 Animator:
   serializedVersion: 3
@@ -230,4 +261,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24b05e03214d7942b3c6fd9508c2ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexMap: {fileID: 0}
+  HexMap: {fileID: 0}
