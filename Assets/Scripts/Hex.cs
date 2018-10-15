@@ -16,6 +16,8 @@ public class Hex: IQPathTile {
         this.Q = q;
         this.R = r;
         this.S = -(q + r);
+
+        this.units = new HashSet<Unit>();
     }
 
     // Q + R + S = 0
@@ -29,8 +31,13 @@ public class Hex: IQPathTile {
     public float Elevation;
     public float Moisture;
 
-    // TODO: Temporary public
-    public int MovementCost = 1;
+    public enum TERRAIN_TYPE { PLAINS, GRASSLANDS, FLOODPLAINS, DESERT, LAKE, OCEAN };
+    public enum ELEVATION_TYPE { FLAT, HILL, MOUNTAIN, WATER };
+    public enum FEATURE_TYPE { NONE, FOREST, RAINFOREST, MARSH };
+
+    public TERRAIN_TYPE TerrainType { get; set; }
+    public ELEVATION_TYPE ElevationType { get; set; }
+    public FEATURE_TYPE FeatureType { get; set; }
 
     public readonly HexMap HexMap;
 
@@ -170,10 +177,21 @@ public class Hex: IQPathTile {
         return units.ToArray();
     }
 
-    public int BaseMovementCost()
+    // Returns the most common movement cost for this tile, not considering special unit rules
+    public int BaseMovementCost(bool isHillWalker, bool isForestWalker, bool isFlyer)
     {
-        // TODO: Factor in terrain type and features
-        return MovementCost;
+        if ((ElevationType == ELEVATION_TYPE.MOUNTAIN || ElevationType == ELEVATION_TYPE.WATER) && isFlyer == false)
+            return -99;
+
+        int moveCost = 1;
+
+        if ( ElevationType == ELEVATION_TYPE.HILL && isHillWalker == false )
+            moveCost += 1;
+
+        if ((FeatureType == FEATURE_TYPE.FOREST || FeatureType == FEATURE_TYPE.RAINFOREST) && isForestWalker == false)
+            moveCost += 1;
+
+        return moveCost;
     }
 
     Hex[] neighbours;

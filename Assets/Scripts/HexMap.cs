@@ -61,7 +61,7 @@ public class HexMap : MonoBehaviour, IQPathWorld {
             {
                 foreach(Unit u in units)
                 {
-                    u.DoTurn();
+                    u.DoMove();
                 }
             }
         }
@@ -109,11 +109,14 @@ public class HexMap : MonoBehaviour, IQPathWorld {
                 hexToGameObjectMap[h] = hexGO;
                 gameObjectToHexMap[hexGO] = h;
 
+                h.TerrainType = Hex.TERRAIN_TYPE.OCEAN;
+                h.ElevationType = Hex.ELEVATION_TYPE.WATER;
+
                 hexGO.name = string.Format("{0},{1}", column, row);
                 hexGO.GetComponent<HexComponent>().Hex = h;
                 hexGO.GetComponent<HexComponent>().HexMap = this;
 
-                hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0},{1}", column, row);
+                hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0},{1}\n{2}", column, row, h.BaseMovementCost(false, false, false));
             }
         }
 
@@ -195,45 +198,54 @@ public class HexMap : MonoBehaviour, IQPathWorld {
                 MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
                 MeshFilter mf = hexGO.GetComponentInChildren<MeshFilter>();
 
-                h.MovementCost = 1;
-
                 if (h.Elevation >= HeightFlat && h.Elevation < HeightMountain)
                 {
                     if (h.Moisture >= MoistureJungle)
                     {
                         mr.material = MatGrasslands;
+                        h.TerrainType = Hex.TERRAIN_TYPE.GRASSLANDS;
+                        h.FeatureType = Hex.FEATURE_TYPE.RAINFOREST;
+
                         // Spawn jungle
                         Vector3 treePos = hexGO.transform.position;
                         if (h.Elevation > HeightHill)
                         {
                             treePos.y += 0.25f;
                         }
-                        h.MovementCost = 2;
+
                         GameObject.Instantiate(JunglePrefab, treePos, Quaternion.identity, hexGO.transform);
                     }
                     else if (h.Moisture >= MoistureForest)
                     {
                         mr.material = MatGrasslands;
+                        h.TerrainType = Hex.TERRAIN_TYPE.GRASSLANDS;
+                        h.FeatureType = Hex.FEATURE_TYPE.FOREST;
+
                         // Spawn forest
                         Vector3 treePos = hexGO.transform.position;
                         if(h.Elevation > HeightHill)
                         {
                             treePos.y += 0.25f;
                         }
-                        h.MovementCost = 2;
+
+                        h.FeatureType = Hex.FEATURE_TYPE.FOREST;
+
                         GameObject.Instantiate(ForestPrefab, treePos, Quaternion.identity, hexGO.transform);
                     }
                     else if (h.Moisture >= MoistureGrasslands)
                     {
                         mr.material = MatGrasslands;
+                        h.TerrainType = Hex.TERRAIN_TYPE.GRASSLANDS;
                     }
                     else if (h.Moisture >= MoisturePlains)
                     {
                         mr.material = MatPlains;
+                        h.TerrainType = Hex.TERRAIN_TYPE.PLAINS;
                     }
                     else
                     {
                         mr.material = MatDesert;
+                        h.TerrainType = Hex.TERRAIN_TYPE.DESERT;
                     }
                 }
 
@@ -241,23 +253,26 @@ public class HexMap : MonoBehaviour, IQPathWorld {
                 {
                     mr.material = MatMountains;
                     mf.mesh = MeshMountain;
-                    h.MovementCost = -99;
+                    h.ElevationType = Hex.ELEVATION_TYPE.MOUNTAIN;
                 }
                 else if (h.Elevation >= HeightHill)
                 {
                     mf.mesh = MeshHill;
-                    h.MovementCost = 2;
+                    h.ElevationType = Hex.ELEVATION_TYPE.HILL;
                 }
                 else if (h.Elevation >= HeightFlat)
                 {
                     mf.mesh = MeshFlat;
+                    h.ElevationType = Hex.ELEVATION_TYPE.FLAT;
                 }
                 else
                 {
                     mr.material = MatOcean;
                     mf.mesh = MeshFlat;
-                    h.MovementCost = -99;
+                    h.ElevationType = Hex.ELEVATION_TYPE.WATER;
                 }
+
+                hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0},{1}\n{2}", column, row, h.BaseMovementCost(false, false, false));
             }
         }
     }
