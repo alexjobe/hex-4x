@@ -84,10 +84,18 @@ public class Unit : IQPathUnit {
         return false;
     }
 
+    public void RefreshMovement()
+    {
+        MovementRemaining = Movement;
+    }
+
     // Processes one tile worth of movement for unit
     // Returns true if this should be called immediately again
     public bool DoMove()
     {
+        if (MovementRemaining <= 0)
+            return false;
+
         // Do queued move
         if(hexPath == null || hexPath.Count == 0)
         {
@@ -115,6 +123,7 @@ public class Unit : IQPathUnit {
 
         // Move to new hex
         SetHex(nextHex);
+        MovementRemaining = Mathf.Max(MovementRemaining - costToEnter, 0);
 
         return hexPath != null && MovementRemaining > 0;
     }

@@ -52,28 +52,46 @@ public class HexMap : MonoBehaviour, IQPathWorld {
         GenerateMap();
 	}
 
+    public bool AnimationIsPlaying = false;
+
     private void Update()
     {
         // TESTING: Hit space to advance to next turn
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(units != null)
+            StartCoroutine( DoAllUnitMoves() );
+        }
+    }
+
+    public void EndTurn()
+    {
+
+        // Reset unit movement
+        foreach(Unit u in units)
+        {
+            u.RefreshMovement();
+        }
+    }
+
+    IEnumerator DoAllUnitMoves()
+    {
+        if (units != null)
+        {
+            foreach (Unit u in units)
             {
-                foreach(Unit u in units)
-                {
-                    u.DoMove();
-                }
+                yield return DoUnitMoves(u);
             }
         }
-        if (Input.GetKeyDown(KeyCode.P))
+    }
+
+    public IEnumerator DoUnitMoves( Unit u )
+    {
+        while (u.DoMove())
         {
-            if (units != null)
-            {
-                foreach (Unit u in units)
-                {
-                    u.DUMMY_PATHFINDING_FUNC();
-                }
-            }
+            Debug.Log("DoMove returned true -- will be called again");
+            // TODO: Check to see if an animation is playing. 
+            // If so, wait for it to finish
+            while (AnimationIsPlaying) { yield return null; }
         }
     }
 

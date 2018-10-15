@@ -30,11 +30,22 @@ public class UnitView : MonoBehaviour {
         {
             this.transform.position = newPosition;
         }
+        else
+        {
+            // TODO: We need a better signalling system and/or animation queueing
+            GameObject.FindObjectOfType<HexMap>().AnimationIsPlaying = true;
+        }
     }
 
     private void Update()
     {
-        this.transform.position = 
-            Vector3.SmoothDamp(this.transform.position, newPosition, ref currentVelocity, smoothTime);
+        this.transform.position = Vector3.SmoothDamp(this.transform.position, 
+            newPosition, ref currentVelocity, smoothTime);
+
+        // TODO: Determine the best way to handle the end of our animation
+        if(Vector3.Distance(this.transform.position, newPosition) < 0.1f)
+        {
+            GameObject.FindObjectOfType<HexMap>().AnimationIsPlaying = false; 
+        }
     }
 }

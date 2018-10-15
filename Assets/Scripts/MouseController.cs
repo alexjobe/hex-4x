@@ -51,6 +51,7 @@ public class MouseController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            SelectedUnit = null;
             CancelUpdateFunc();
         }
 
@@ -96,7 +97,6 @@ public class MouseController : MonoBehaviour {
         Update_CurrentFunc = Update_DetectModeStart;
 
         // Do cleanup of UI elements associated with modes (eg. unit path lines)
-        SelectedUnit = null;
         hexPath = null;
     }
 
@@ -181,6 +181,9 @@ public class MouseController : MonoBehaviour {
             if( SelectedUnit != null)
             {
                 SelectedUnit.SetHexPath(hexPath);
+
+                // Process unit movement
+                StartCoroutine(hexMap.DoUnitMoves(SelectedUnit));
             }
 
             CancelUpdateFunc();
